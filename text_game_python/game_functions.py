@@ -57,6 +57,7 @@ bear_cave_interior_area = Area("There is nothing interesting about this cave.. y
                                nearby_items= None,
                                trigger_condition = no_items_left)                              
 
+#test
 
 #########~~Input function and commands~#########
 
