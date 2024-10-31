@@ -19,6 +19,9 @@ def game_setup():
         time.sleep(2)
         game_setup()
     #run game_start with name saved
+    elif main_character.name.lower() == 'skip bear':
+        print("Skipping to bear scene..")
+        bear_cave_story()
     else:
         print_fast(f"Sweep all of the bugs under the furniture and roll out the red carpet!\nThe Java Juggler, Code Conjurer, Syntax Sorcerer {main_character.name} has arrived!")
         time.sleep(6)
@@ -121,41 +124,46 @@ def bear_cave_story():
         bear_choice()
 
 def bear_choice():
-    initial_choices = ['run', 'fight', 'attack', 'die', 'enter', 'enter cave', 'leave', 'north', 'n', 'trail']
+    initial_choices = ['run', 'fight', 'attack', 'fight bear', 'attack bear', 'poke bear', 'die', 'enter', 'enter cave', 'leave', 'north', 'n', 'trail']
+
+    valid_choices = initial_choices
 
     if bear_cave.nearby_threats is None:
-        valid_choices = [choice for choice in initial_choices if choice not in ['fight', 'attack', 'run', 'die']]
-    else:
+        valid_choices = [choice for choice in initial_choices if choice not in ['fight', 'attack', 'run', 'die', 'fight bear', 'attack bear', 'poke bear']]
         valid_choices = [choice for choice in initial_choices if choice not in ['enter', 'enter cave', 'leave', 'n', 'north', 'trail']]
 
     if bear.health > 0:
         choice = get_input(valid_choices, "Hint: don't poke the bear")
         
         
-        if choice == 'fight' or choice == 'attack':
-            print_fast(f"Okay {main_character.name}, you must be a masochist then. Good luck fighting the fucking bear..")
+        if choice in ['fight', 'attack', 'fight bear', 'attack bear']:
+            first_attack = 0
+            if first_attack == 0:
+                print_fast(f"Okay {main_character.name}, you must be a masochist then. Good luck fighting the fucking bear..")
+                first_attack = 1
             
-            if main_character.equipped_weapon == None:
-                main_character.attack(bear)
-                bear.attack(main_character)
-                bear_choice()
 
-            if main_character.equipped_weapon.name == 'Bear Spray':
+            if main_character.equipped_weapon == None or main_character.equipped_weapon.name == 'Bear Spray': 
                 main_character.attack(bear)
-                if bear.health <= 80:
+                if bear.health <= 40:
                     print_fast("The bear writhes in pain and runs off into the forest.")
                     print_fast("You could enter the cave now.. If you dare.")
                     bear_cave.remove_threat(bear)
-                    bear_choice()
+                    bear_cave_story()
                 else:
-                    bear.attack(main_character)
+                    if bear.health > 0:
+                        bear.attack(main_character)
                     bear_choice()
             else:
                 main_character.attack(bear)
-                bear.attack(main_character)
-                bear_choice()
+                if bear.health > 0:
+                    bear.attack(main_character)
+                    bear_choice()
+                else:
+                    print("Congratulations! You defeated the bear. Hope you feel good about yourself.")
+                    bear_cave_story()
 
-        elif choice == 'die':
+        elif choice == 'die' or choice == 'poke bear':
             print_slow(f"No honor in suicide by bear..")
             while(True):
                 bear.attack(main_character)

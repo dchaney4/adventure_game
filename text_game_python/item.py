@@ -26,7 +26,7 @@ class Club(Item):
         self.name = 'Club'
         self.quantity = quantity
         self.description = (f"It's just a large stick. Good for hitting things. Deals {self.damage} points of damage.")
-        self.aliases = ['branch', 'stick']
+        self.aliases = ['branch', 'stick', 'knobbly branch', 'large knobbly branch', 'large branch']
 
     def use(self, player):
         print_slow(f"Try attacking when the time is right..")

@@ -95,7 +95,16 @@ class Player:
 
         if not weapon_found:
             print_slow(f"You do not have {article} {item_name} in your inventory.")
+    
+    def unequip(self):
+        
+        if self.equipped_weapon == None:
+            print("You have nothing equipped..")
+        else:
+            print(f"You have unequipped {self.equipped_weapon}.")
+            self.equipped_weapon = None
 
+        
     #pick up item from area.nearby_items
     def pickup_item(self, item_name):
         if self.current_area is None:

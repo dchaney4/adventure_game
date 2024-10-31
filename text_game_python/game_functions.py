@@ -47,7 +47,7 @@ bear_cave = Area("The dark cave is formed into the base of the mountain, impossi
                  nearby_threats = bear,
                  trigger_condition = no_threats_left)
 
-river_area = Area("Large rocks cover the ground across a large, mostly dry river bed.\nYou see a bright red object among the rocks.\nUpon closer inspection, you find the remains of a hiker clad in ruined hiking gear. However a can of bear spray and bandages lie discarded nearby..",
+river_area = Area(f"Large rocks cover the ground across a large, mostly dry river bed.\nYou see a bright red object among the rocks.\nUpon closer inspection, you find the remains of a hiker clad in ruined hiking gear. However a can of bear spray and bandages lie discarded nearby..",
                  "Large rocks cover the ground across a large, mostly dry river bed.\nThe corpse of the hiker and their ruined gear, lay forgotten in the stream..",
                  nearby_items=[(bear_spray, 1), (bandage, 3)],
                  trigger_condition = no_items_left)
@@ -104,6 +104,9 @@ def get_input(valid_actions, error_message = "Invalid command.. Type 'help' for 
         elif action.startswith("pick up "):#pick up item from area
             item_name = action[8:]#remove pick up
             main_character.pickup_item(item_name)
+
+        elif action == 'unequip' or action.startswith("unequip "): #unequip item
+            main_character.unequip
 
         #check instance specific valid_actions
         elif action in valid_actions:
